@@ -1,0 +1,8 @@
+.env
+.nuxt
+.output
+dist
+node_modules
+
+# qodo automated tests
+.qudo
