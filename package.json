@@ -9,14 +9,13 @@
     "start": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt-ignis": "0.4.0"
+    "nuxt-ignis": "0.5.1"
   },
-  "pnpm" : {
-    "overrides": {
-      "nuxt": "4.0.2",
-      "@nuxt/kit": "4.0.2",
-      "@nuxt/schema": "4.0.2"
-    }
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "vue-demi"
+    ]
   },
-  "packageManager": "pnpm@10.15.1"
+  "packageManager": "pnpm@10.19.0"
 }
