@@ -1,17 +1,18 @@
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }
-  // ... Fetch all results from your DB for race = id ...
-  // Return an array of result objects that match the "key" fields above:
-  return [
+  const neon = getNeonClient()
+  return await select(
+    neon,
     {
-      result_id: id,
-      runner_name: 'John Doe',
-      category: 'M30',
-      start_number: 12,
-      achieved_time: '01:15:32',
-      position_total: 3,
-      position_in_category: 1,
+      columns: ['p1.result_id', 'p2.first_name', 'p2.last_name', 'p1.category', 'p1.start_number', 'p1.achieved_time', 'p1.position_total', 'p1.position_in_category'],
+      from: [
+        { table: 'results', alias: 'p1' },
+        { table: 'runners', alias: 'p2', joinColumn1: { alias: 'p1', name: 'runner_id' }, joinColumn2: { alias: 'p2', name: 'runner_id' } },
+      ],
+      where: [
+        { column: { alias: 'p1', name: 'race_id' }, condition: '=', value: id },
+      ],
+      orderBy: 'p1.position_total ASC',
     },
-    // ...
-  ]
+  )
 })
