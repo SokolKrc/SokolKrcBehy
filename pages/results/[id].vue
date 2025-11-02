@@ -1,11 +1,25 @@
 <template>
-  <div>
-    <p v-if="pending">
+  <section id="race">
+    <p v-if="pendingRace">
+      Loading race details…
+    </p>
+
+    <p v-else-if="errorRace">
+      Error: {{ errorRace.message }}
+    </p>
+
+    <p v-else-if="race?.[0]">
+      <strong>{{ race[0].race_name }}</strong> ({{ ignisDate(new Date(race?.[0]?.race_date), 'dd.MM.yyyy') }})
+    </p>
+  </section>
+
+  <section id="results">
+    <p v-if="pendingResults">
       Loading results…
     </p>
 
-    <p v-else-if="error">
-      Error: {{ error.message }}
+    <p v-else-if="errorResults">
+      Error: {{ errorResults.message }}
     </p>
 
     <div v-else>
@@ -17,7 +31,13 @@
         striped
       />
     </div>
-  </div>
+  </section>
+
+  ←
+  <NuxtLink to="/races" :class="LINK">
+    Zpět na seznam závodů
+  </NuxtLink>
+
 </template>
 
 <script setup lang="ts">
@@ -30,7 +50,8 @@ type ResultsTableData = {
 const route = useRoute()
 const raceId = route.params.id
 
-const { data: results, pending, error } = await useAsyncData<Result[]>(() => $fetch(`/api/results/${raceId}`))
+const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<Result[]>(() => $fetch(`/api/results/${raceId}`))
+const { data: race, pending: pendingRace, error: errorRace } = await useAsyncData<Race[]>(() => $fetch(`/api/races/${raceId}`))
 
 const cols = [
   {

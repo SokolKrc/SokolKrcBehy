@@ -13,6 +13,14 @@ export default withNuxt([
   {
     rules: {
       // your rule overrides here
+      'vue/max-attributes-per-line': ['error', {
+        singleline: {
+          max: 4,
+        },
+        multiline: {
+          max: 3,
+        },
+      }],
     },
   },
 

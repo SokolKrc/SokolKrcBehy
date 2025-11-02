@@ -17,7 +17,7 @@
         hoverable
       >
       <template #race_name-cell="{ row }">
-        <NuxtLink :to="`/results/${row.getValue('race_id')}`" class="text-emerald-400 hover:text-amber-300">
+        <NuxtLink :to="`/results/${row.getValue('race_id')}`" :class="LINK">
           {{ row.getValue('race_name') }}
         </NuxtLink>
       </template>
@@ -33,7 +33,7 @@ type RaceTableData = {
   row: Row<Race>
 }
 
-const { data: races, status, error } = await useAsyncData<Race[]>(() => $fetch('/api/races'))
+const { data: races, status, error } = await useAsyncData<Race[]>(() => $fetch('/api/races/all'))
 
 const cols = [
   {
