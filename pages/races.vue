@@ -15,7 +15,13 @@
         :row-key="(row: Race) => row.race_id"
         striped
         hoverable
-      />
+      >
+      <template #race_name-cell="{ row }">
+        <NuxtLink :to="`/results/${row.getValue('race_id')}`" class="text-emerald-400 hover:text-amber-300">
+          {{ row.getValue('race_name') }}
+        </NuxtLink>
+      </template>
+      </UTable>
     </div>
   </div>
 </template>
@@ -45,6 +51,12 @@ const cols = [
   {
     accessorKey: 'race_name',
     header: 'Name',
+    meta: {
+      class: {
+        th: 'text-left',
+        td: 'text-left'
+      }
+    },
     cell: ({ row }: RaceTableData) => `${row.getValue('race_name')}`,
   },
   {
