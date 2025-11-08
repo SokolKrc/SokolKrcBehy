@@ -28,8 +28,7 @@ export type Runner = z.infer<typeof RunnerSchema>
 export const ResultSchema = z.object({
   result_id: z.number().int().positive(),
   race_id: z.number().int().positive(),
-  first_name: z.string().max(100),
-  last_name: z.string().max(100),
+  runner_id: z.number().int().positive(),
   category: z.string().max(50).nullable().optional(),
   start_number: z.number().int().nullable().optional(),
   achieved_time: z.string().nullable().optional(),
@@ -38,3 +37,5 @@ export const ResultSchema = z.object({
 })
 
 export type Result = z.infer<typeof ResultSchema>
+
+export type RaceResult = Result & { first_name: string; last_name: string }

@@ -1,11 +1,11 @@
 <template>
   <section id="race">
     <p v-if="pendingRace">
-      Loading race details…
+      Načítání detailů závodu…
     </p>
 
     <p v-else-if="errorRace">
-      Error: {{ errorRace.message }}
+      Chyba:{{ errorRace.message }}
     </p>
 
     <p v-else-if="race?.[0]">
@@ -15,11 +15,11 @@
 
   <section id="results">
     <p v-if="pendingResults">
-      Loading results…
+      Načítání výsledků…
     </p>
 
     <p v-else-if="errorResults">
-      Error: {{ errorResults.message }}
+      Chyba:{{ errorResults.message }}
     </p>
 
     <div v-else>
@@ -38,86 +38,79 @@
       </UTable>
     </div>
   </section>
-
-  ←
-  <NuxtLink to="/races" :class="LINK">
-    Zpět na seznam závodů
-  </NuxtLink>
-
+  
+  <BackLink backlink="/races" label="Zpět na seznam závodů" />
 </template>
 
 <script setup lang="ts">
 import type { Row } from '@tanstack/table-core'
 
 type ResultsTableData = {
-  row: Row<Result>
+  row: Row<RaceResult>
 }
 
 const route = useRoute()
 const raceId = route.params.id
 
-const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<Result[]>(() => $fetch(`/api/results/race/${raceId}`))
+const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<RaceResult[]>(() => $fetch(`/api/results/race/${raceId}`))
 const { data: race, pending: pendingRace, error: errorRace } = await useAsyncData<Race[]>(() => $fetch(`/api/races/${raceId}`))
 
 const cols = [
   {
     accessorKey: 'position_total',
-    header: 'Pos (Overall)',
+    header: 'Celkem',
     meta: {
       class: {
-        th: 'text-center'
+        th: 'text-center',
       }
     },
+    cell: ({ row }: ResultsTableData) => `${row.getValue('position_total')}.`,
     sortable: true,
   },
   {
     accessorKey: 'position_in_category',
-    header: 'Pos (Category)',
+    header: 'Kategorie',
     meta: {
       class: {
-        th: 'text-center'
+        th: 'text-center',
       }
     },
+    cell: ({ row }: ResultsTableData) => `${row.getValue('position_in_category')}.`,
     sortable: true,
   },
   {
-    accessorKey: 'name',
-    header: 'Runner',
+    accessorKey: 'start_number',
+    header: 'Číslo',
     meta: {
       class: {
-        th: 'text-left',
-        td: 'text-left'
+        th: 'text-center',
       }
     },
-    // accessorFn: (row: Result) => `${row.first_name} ${row.last_name}`
+  },
+  {
+    accessorKey: 'name',
+    header: 'Běžec',
+    meta: {
+      class: {
+        td: 'text-left',
+      }
+    },
   },
   {
     accessorKey: 'category',
-    header: 'Category',
+    header: 'Kategorie',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
-      }
-    },
-  },
-  {
-    accessorKey: 'start_number',
-    header: 'Start #',
-    meta: {
-      class: {
-        th: 'text-center',
-        td: 'text-center'
       }
     },
   },
   {
     accessorKey: 'achieved_time',
-    header: 'Time',
+    header: 'Čas',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
     sortable: true,

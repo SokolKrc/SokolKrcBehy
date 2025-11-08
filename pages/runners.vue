@@ -1,11 +1,11 @@
 <template>
   <div>
     <p v-if="status === 'pending'">
-      Loading runners…
+      Načítání běžců…
     </p>
 
     <p v-else-if="status === 'error'">
-      Error: {{ error?.message }}
+      Chyba: {{ error?.message }}
     </p>
 
     <div v-else>
@@ -16,14 +16,21 @@
         striped
         hoverable
       >
-      <template #race_name-cell="{ row }">
-        <NuxtLink :to="`/results/${row.getValue('race_id')}`" :class="LINK">
-          {{ row.getValue('race_name') }}
-        </NuxtLink>
-      </template>
+        <template #name-cell="{ row }">
+          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
+            {{ row.getValue('name') }}
+          </NuxtLink>
+        </template>
+        <template #results-cell="{ row }">
+          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="SILENT_LINK">
+            📋
+          </NuxtLink>
+        </template>
       </UTable>
     </div>
   </div>
+  
+  <BackLink backlink="/" label="Zpět na hlavní stránku" />
 </template>
 
 <script setup lang="ts">
@@ -38,66 +45,52 @@ const { data: runners, status, error } = await useAsyncData<Runner[]>(() => $fet
 const cols = [
   {
     accessorKey: 'name',
-    header: 'Runner',
+    header: 'Běžec',
     meta: {
       class: {
-        th: 'text-left',
-        td: 'text-left'
+        td: 'text-left',
       }
     },
-    accessorFn: (row: Result) => `${row.first_name} ${row.last_name}`
+    accessorFn: (row: Runner) => `${row.first_name} ${row.last_name}`
   },
   {
     accessorKey: 'club',
-    header: 'Club',
+    header: 'Oddíl',
     meta: {
       class: {
-        th: 'text-left',
-        td: 'text-left'
+        td: 'text-left',
       }
     },
-    // cell: ({ row }: RunnerTableData) => `${row.getValue('club')}`,
     sortable: true,
   },
   {
     accessorKey: 'gender',
-    header: 'Gender',
+    header: 'M/Ž',
     meta: {
       class: {
-        th: 'text-center'
+        th: 'text-center',
       }
     },
-    // cell: ({ row }: RunnerTableData) => `${row.getValue('gender')}`,
+    cell: ({ row }: RunnerTableData) => `${row.getValue('gender') === 'M' ? 'M' : 'Ž'}`,
     sortable: true,
   },
   {
     accessorKey: 'year_of_birth',
-    header: 'Age',
+    header: 'Ročník',
     meta: {
       class: {
-        th: 'text-center'
+        th: 'text-center',
       }
     },
-    // cell: ({ row }: RunnerTableData) => `${row.getValue('year_of_birth')}`,
     sortable: true,
   },
   {
     accessorKey: 'results',
-    header: 'Results',
+    header: 'Výsledky',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
-    },
-    cell: ({ row }: RunnerTableData) =>  { 
-      return h(
-        'a',
-        { 
-          href: `/runners/${row.getValue('runner_id')}`,
-        },
-        '👁️‍🗨️'
-      )
     },
   },
 ]

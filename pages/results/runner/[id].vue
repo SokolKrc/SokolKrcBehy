@@ -1,11 +1,11 @@
 <template>
   <section id="race">
-    <p v-if="pendingRace">
-      Loading race details…
+    <p v-if="pendingRunner">
+      Načítání detailu běžce…
     </p>
 
-    <p v-else-if="errorRace">
-      Error: {{ errorRace.message }}
+    <p v-else-if="errorRunner">
+      Chyba:{{ errorRunner.message }}
     </p>
 
     <p v-else-if="runner?.[0]">
@@ -15,11 +15,11 @@
 
   <section id="results">
     <p v-if="pendingResults">
-      Loading results…
+      Načítání výsledků…
     </p>
 
     <p v-else-if="errorResults">
-      Error: {{ errorResults.message }}
+      Chyba:{{ errorResults.message }}
     </p>
 
     <div v-else>
@@ -39,11 +39,7 @@
     </div>
   </section>
 
-  ←
-  <NuxtLink to="/races" :class="LINK">
-    Zpět na seznam závodů
-  </NuxtLink>
-
+  <BackLink backlink="/runners" label="Zpět na přehled běžců" />
 </template>
 
 <script setup lang="ts">
@@ -57,77 +53,78 @@ const route = useRoute()
 const runnerId = route.params.id
 
 const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<Result[]>(() => $fetch(`/api/results/runner/${runnerId}`))
-const { data: runner, pending: pendingRace, error: errorRace } = await useAsyncData<Runner[]>(() => $fetch(`/api/runners/${runnerId}`))
+const { data: runner, pending: pendingRunner, error: errorRunner } = await useAsyncData<Runner[]>(() => $fetch(`/api/runners/${runnerId}`))
 
 const cols = [
   {
     accessorKey: 'race_date',
-    header: 'Date',
+    header: 'Datum',
+    meta: {
+      class: {
+        th: 'text-center',
+      }
+    },
     cell: ({ row }: ResultsTableData) => {
       return ignisDate(row.getValue('race_date'), 'dd.MM.yyyy')
     },
   },
   {
     accessorKey: 'race_name',
-    header: 'Race',
+    header: 'Závod',
     meta: {
       class: {
-        th: 'text-center',
-        td: 'text-center'
+        td: 'text-left',
       }
     },
   },
   {
     accessorKey: 'category',
-    header: 'Category',
+    header: 'Kategorie',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
   },
   {
     accessorKey: 'start_number',
-    header: 'Start #',
+    header: 'Číslo',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
   },
   {
     accessorKey: 'achieved_time',
-    header: 'Time',
+    header: 'Čas',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
     sortable: true,
   },
   {
     accessorKey: 'position_total',
-    header: 'Pos (Overall)',
+    header: 'Celkem',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
+    cell: ({ row }: ResultsTableData) => `${row.getValue('position_total')}.`,
     sortable: true,
   },
   {
     accessorKey: 'position_in_category',
-    header: 'Pos (Category)',
+    header: 'Kategorie',
     meta: {
       class: {
         th: 'text-center',
-        td: 'text-center'
       }
     },
+    cell: ({ row }: ResultsTableData) => `${row.getValue('position_in_category')}.`,
     sortable: true,
   },
 ]
