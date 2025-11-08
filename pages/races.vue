@@ -17,7 +17,7 @@
         hoverable
       >
       <template #race_name-cell="{ row }">
-        <NuxtLink :to="`/results/${row.getValue('race_id')}`" :class="LINK">
+        <NuxtLink :to="`/results/race/${row.getValue('race_id')}`" :class="LINK">
           {{ row.getValue('race_name') }}
         </NuxtLink>
       </template>

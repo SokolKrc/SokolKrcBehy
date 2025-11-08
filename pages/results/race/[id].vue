@@ -29,7 +29,13 @@
         :row-key="(row: { result_id: number }) => row.result_id"
         hoverable
         striped
-      />
+      >
+        <template #name-cell="{ row }">
+          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
+            {{ `${row.original.first_name} ${row.original.last_name}` }}
+          </NuxtLink>
+        </template>
+      </UTable>
     </div>
   </section>
 
@@ -50,7 +56,7 @@ type ResultsTableData = {
 const route = useRoute()
 const raceId = route.params.id
 
-const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<Result[]>(() => $fetch(`/api/results/${raceId}`))
+const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<Result[]>(() => $fetch(`/api/results/race/${raceId}`))
 const { data: race, pending: pendingRace, error: errorRace } = await useAsyncData<Race[]>(() => $fetch(`/api/races/${raceId}`))
 
 const cols = [
@@ -59,8 +65,7 @@ const cols = [
     header: 'Pos (Overall)',
     meta: {
       class: {
-        th: 'text-center',
-        td: 'text-center'
+        th: 'text-center'
       }
     },
     sortable: true,
@@ -70,8 +75,7 @@ const cols = [
     header: 'Pos (Category)',
     meta: {
       class: {
-        th: 'text-center',
-        td: 'text-center'
+        th: 'text-center'
       }
     },
     sortable: true,
@@ -79,7 +83,13 @@ const cols = [
   {
     accessorKey: 'name',
     header: 'Runner',
-    accessorFn: (row: Result) => `${row.first_name} ${row.last_name}`
+    meta: {
+      class: {
+        th: 'text-left',
+        td: 'text-left'
+      }
+    },
+    // accessorFn: (row: Result) => `${row.first_name} ${row.last_name}`
   },
   {
     accessorKey: 'category',

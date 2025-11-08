@@ -26,3 +26,12 @@
     <NuxtPage />
   </div>
 </template>
+
+<script setup lang="ts">
+useHead({
+  htmlAttrs: {
+    // overriding default ignis.css
+    style: 'max-width: 1200px!important;',
+  },
+})
+</script>
