@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
       where: [
         { column: { alias: 'p1', name: 'race_id' }, condition: '=', value: id },
       ],
-      orderBy: 'p1.position_total ASC',
+      order: 'p1.position_total ASC',
     },
   )
 })

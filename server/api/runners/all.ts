@@ -6,7 +6,7 @@ export default defineEventHandler(async () => {
       columns: ['runner_id', 'first_name', 'last_name', 'club', 'gender', 'year_of_birth'],
       from: { table: 'runners' },
       where: undefined,
-      orderBy: 'last_name, first_name',
+      order: 'last_name, first_name',
     },
   )
 })

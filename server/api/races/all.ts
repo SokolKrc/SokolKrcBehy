@@ -3,10 +3,10 @@ export default defineEventHandler(async () => {
   return await select(
     neon,
     {
-      columns: ['race_id', 'race_name', 'description', 'race_date', 'map_link'],
+      columns: ['race_id', 'race_series', 'race_name', 'description', 'race_date', 'map_link'],
       from: { table: 'races' },
       where: undefined,
-      orderBy: 'race_date DESC',
+      order: 'race_date DESC',
     },
   )
 })

@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const RaceSchema = z.object({
   race_id: z.number().int().positive(),
+  race_series: z.string().max(25),
   race_name: z.string().max(150),
   description: z.string().nullable().optional(),
   race_date: z.string(),
@@ -25,6 +26,11 @@ export const RunnerSchema = z.object({
 
 export type Runner = z.infer<typeof RunnerSchema>
 
+export type RunnerFullName = {
+  first_name: string
+  last_name: string
+}
+
 export const ResultSchema = z.object({
   result_id: z.number().int().positive(),
   race_id: z.number().int().positive(),
@@ -38,4 +44,6 @@ export const ResultSchema = z.object({
 
 export type Result = z.infer<typeof ResultSchema>
 
-export type RaceResult = Result & { first_name: string; last_name: string }
+export type RaceResult = Result & RunnerFullName
+
+export type RaceTopResult = Omit<RaceResult, 'position_total' | 'position_in_category'> & RunnerFullName & { race_date: string }

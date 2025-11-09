@@ -31,6 +31,11 @@
             📋
           </NuxtLink>
         </template>
+        <template #stats-cell="{ row }">
+          <NuxtLink :to="`/stats/${row.original.race_series}`" :class="SILENT_LINK">
+            📊
+          </NuxtLink>
+        </template>
       </UTable>
     </div>
   </div>
@@ -93,6 +98,15 @@ const cols = [
   {
     accessorKey: 'results',
     header: 'Výsledky',
+    meta: {
+      class: {
+        th: 'text-center',
+      }
+    },
+  },
+  {
+    accessorKey: 'stats',
+    header: 'Statistiky',
     meta: {
       class: {
         th: 'text-center',
