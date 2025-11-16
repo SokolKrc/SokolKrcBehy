@@ -60,6 +60,16 @@ const { data: stats, pending: pendingStats, error: errorStats } = await useAsync
 
 const cols = [
   {
+    id: 'rowNumber',
+    header: '#',
+    cell: ({ row }: ResultsTableData) => `${row.index + 1}.`,
+    meta: {
+      class: {
+        th: 'text-center w-10',
+      }
+    },
+  },
+  {
     accessorKey: 'race_date',
     header: 'Datum',
     cell: ({ row }: ResultsTableData) => {
