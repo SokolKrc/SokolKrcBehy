@@ -9,7 +9,7 @@
     "start": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt-ignis": "0.5.1"
+    "nuxt-ignis": "0.5.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -22,5 +22,5 @@
       "vue-demi"
     ]
   },
-  "packageManager": "pnpm@10.19.0"
+  "packageManager": "pnpm@10.24.0"
 }
