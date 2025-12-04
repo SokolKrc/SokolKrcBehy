@@ -30,6 +30,7 @@
           :row-key="(row: { result_id: number }) => row.result_id"
           hoverable
           striped
+          empty="Tento závod nikdo neběžel :("
         >
           <template #name-cell="{ row }">
             <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
