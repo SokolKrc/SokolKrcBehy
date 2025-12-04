@@ -1,45 +1,47 @@
 <template>
-  <section id="race">
-    <p v-if="pendingRunner">
-      Načítání detailu běžce…
-    </p>
+  <div>
+    <section id="race">
+      <p v-if="pendingRunner">
+        Načítání detailu běžce…
+      </p>
 
-    <p v-else-if="errorRunner">
-      Chyba:{{ errorRunner.message }}
-    </p>
+      <p v-else-if="errorRunner">
+        Chyba:{{ errorRunner.message }}
+      </p>
 
-    <p v-else-if="runner?.[0]">
-      <strong>{{ `${runner[0].first_name} ${runner[0]?.last_name}` }}</strong>
-    </p>
-  </section>
+      <p v-else-if="runner?.[0]">
+        <strong>{{ `${runner[0].first_name} ${runner[0]?.last_name}` }}</strong>
+      </p>
+    </section>
 
-  <section id="results">
-    <p v-if="pendingResults">
-      Načítání výsledků…
-    </p>
+    <section id="results">
+      <p v-if="pendingResults">
+        Načítání výsledků…
+      </p>
 
-    <p v-else-if="errorResults">
-      Chyba:{{ errorResults.message }}
-    </p>
+      <p v-else-if="errorResults">
+        Chyba:{{ errorResults.message }}
+      </p>
 
-    <div v-else>
-      <UTable
-        :columns="cols"
-        :data="results"
-        :row-key="(row: { result_id: number }) => row.result_id"
-        hoverable
-        striped
-      >
-        <template #race_name-cell="{ row }">
-          <NuxtLink :to="`/results/race/${row.original.race_id}`" :class="LINK">
-            {{ row.getValue('race_name') }}
-          </NuxtLink>
-        </template>
-      </UTable>
-    </div>
-  </section>
+      <div v-else>
+        <UTable
+          :columns="cols"
+          :data="results"
+          :row-key="(row: { result_id: number }) => row.result_id"
+          hoverable
+          striped
+        >
+          <template #race_name-cell="{ row }">
+            <NuxtLink :to="`/results/race/${row.original.race_id}`" :class="LINK">
+              {{ row.getValue('race_name') }}
+            </NuxtLink>
+          </template>
+        </UTable>
+      </div>
+    </section>
 
-  <BackLink backlink="/runners" label="Zpět na přehled běžců" />
+    <BackLink backlink="/runners" label="Zpět na přehled běžců" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -62,7 +64,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: ResultsTableData) => {
       return ignisDate(row.getValue('race_date'), 'dd.MM.yyyy')
@@ -74,7 +76,7 @@ const cols = [
     meta: {
       class: {
         td: 'text-left',
-      }
+      },
     },
   },
   {
@@ -83,7 +85,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
   },
   {
@@ -92,7 +94,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
   },
   {
@@ -101,7 +103,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     sortable: true,
   },
@@ -111,7 +113,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: ResultsTableData) => `${row.getValue('position_total')}.`,
     sortable: true,
@@ -122,7 +124,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: ResultsTableData) => `${row.getValue('position_in_category')}.`,
     sortable: true,

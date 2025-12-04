@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
       from: { table: 'runners' },
       where: [
         { column: { name: 'runner_id' }, condition: '=', value: id },
-      ]
+      ],
     },
   )
 })

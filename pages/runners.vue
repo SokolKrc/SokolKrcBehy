@@ -1,36 +1,38 @@
 <template>
   <div>
-    <p v-if="status === 'pending'">
-      Načítání běžců…
-    </p>
+    <section id="runners">
+      <p v-if="status === 'pending'">
+        Načítání běžců…
+      </p>
 
-    <p v-else-if="status === 'error'">
-      Chyba: {{ error?.message }}
-    </p>
+      <p v-else-if="status === 'error'">
+        Chyba: {{ error?.message }}
+      </p>
 
-    <div v-else>
-      <UTable
-        :columns="cols"
-        :data="runners"
-        :row-key="(row: Runner) => row.runner_id"
-        striped
-        hoverable
-      >
-        <template #name-cell="{ row }">
-          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
-            {{ row.getValue('name') }}
-          </NuxtLink>
-        </template>
-        <template #results-cell="{ row }">
-          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="SILENT_LINK">
-            📋
-          </NuxtLink>
-        </template>
-      </UTable>
-    </div>
+      <div v-else>
+        <UTable
+          :columns="cols"
+          :data="runners"
+          :row-key="(row: Runner) => row.runner_id"
+          striped
+          hoverable
+        >
+          <template #name-cell="{ row }">
+            <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
+              {{ row.getValue('name') }}
+            </NuxtLink>
+          </template>
+          <template #results-cell="{ row }">
+            <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="SILENT_LINK">
+              📋
+            </NuxtLink>
+          </template>
+        </UTable>
+      </div>
+    </section>
+
+    <BackLink backlink="/" label="Zpět na hlavní stránku" />
   </div>
-  
-  <BackLink backlink="/" label="Zpět na hlavní stránku" />
 </template>
 
 <script setup lang="ts">
@@ -49,9 +51,9 @@ const cols = [
     meta: {
       class: {
         td: 'text-left',
-      }
+      },
     },
-    accessorFn: (row: Runner) => `${row.first_name} ${row.last_name}`
+    accessorFn: (row: Runner) => `${row.first_name} ${row.last_name}`,
   },
   {
     accessorKey: 'club',
@@ -59,7 +61,7 @@ const cols = [
     meta: {
       class: {
         td: 'text-left',
-      }
+      },
     },
     sortable: true,
   },
@@ -69,7 +71,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: RunnerTableData) => `${row.getValue('gender') === 'M' ? 'M' : 'Ž'}`,
     sortable: true,
@@ -80,7 +82,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     sortable: true,
   },
@@ -90,7 +92,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
   },
 ]

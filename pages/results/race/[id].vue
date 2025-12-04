@@ -1,45 +1,47 @@
 <template>
-  <section id="race">
-    <p v-if="pendingRace">
-      Načítání detailů závodu…
-    </p>
+  <div>
+    <section id="race">
+      <p v-if="pendingRace">
+        Načítání detailů závodu…
+      </p>
 
-    <p v-else-if="errorRace">
-      Chyba:{{ errorRace.message }}
-    </p>
+      <p v-else-if="errorRace">
+        Chyba:{{ errorRace.message }}
+      </p>
 
-    <p v-else-if="race?.[0]">
-      <strong>{{ race[0].race_name }}</strong> ({{ ignisDate(new Date(race?.[0]?.race_date), 'dd.MM.yyyy') }})
-    </p>
-  </section>
+      <p v-else-if="race?.[0]">
+        <strong>{{ race[0].race_name }}</strong> ({{ ignisDate(new Date(race?.[0]?.race_date), 'dd.MM.yyyy') }})
+      </p>
+    </section>
 
-  <section id="results">
-    <p v-if="pendingResults">
-      Načítání výsledků…
-    </p>
+    <section id="results">
+      <p v-if="pendingResults">
+        Načítání výsledků…
+      </p>
 
-    <p v-else-if="errorResults">
-      Chyba:{{ errorResults.message }}
-    </p>
+      <p v-else-if="errorResults">
+        Chyba:{{ errorResults.message }}
+      </p>
 
-    <div v-else>
-      <UTable
-        :columns="cols"
-        :data="results"
-        :row-key="(row: { result_id: number }) => row.result_id"
-        hoverable
-        striped
-      >
-        <template #name-cell="{ row }">
-          <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
-            {{ `${row.original.first_name} ${row.original.last_name}` }}
-          </NuxtLink>
-        </template>
-      </UTable>
-    </div>
-  </section>
-  
-  <BackLink backlink="/races" label="Zpět na seznam závodů" />
+      <div v-else>
+        <UTable
+          :columns="cols"
+          :data="results"
+          :row-key="(row: { result_id: number }) => row.result_id"
+          hoverable
+          striped
+        >
+          <template #name-cell="{ row }">
+            <NuxtLink :to="`/results/runner/${row.original.runner_id}`" :class="LINK">
+              {{ `${row.original.first_name} ${row.original.last_name}` }}
+            </NuxtLink>
+          </template>
+        </UTable>
+      </div>
+    </section>
+
+    <BackLink backlink="/races" label="Zpět na seznam závodů" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -62,7 +64,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: ResultsTableData) => `${row.getValue('position_total')}.`,
     sortable: true,
@@ -73,7 +75,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     cell: ({ row }: ResultsTableData) => `${row.getValue('position_in_category')}.`,
     sortable: true,
@@ -84,7 +86,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
   },
   {
@@ -93,7 +95,7 @@ const cols = [
     meta: {
       class: {
         td: 'text-left',
-      }
+      },
     },
   },
   {
@@ -102,7 +104,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
   },
   {
@@ -111,7 +113,7 @@ const cols = [
     meta: {
       class: {
         th: 'text-center',
-      }
+      },
     },
     sortable: true,
   },

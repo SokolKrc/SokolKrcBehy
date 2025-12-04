@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   // IDs of selected races
   const raceIds = races.map(r => r.race_id)
-  
+
   // top 10 results across all suitable races
   const topResults = await select(
     neon,
@@ -34,10 +34,9 @@ export default defineEventHandler(async (event) => {
     },
   )
 
-
-  return { 
-    raceDetail: races[0], 
+  return {
+    raceDetail: races[0],
     raceCount: races.length,
-    topResults 
+    topResults,
   }
 })
