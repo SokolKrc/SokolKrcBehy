@@ -42,7 +42,7 @@ type RunnerTableData = {
   row: Row<Runner>
 }
 
-const { data: runners, status, error } = await useAsyncData<Runner[]>(() => $fetch('/api/runners/all'))
+const { data: runners, status, error } = useFetch<Runner[]>(`/api/runners/all`)
 
 const cols = [
   {

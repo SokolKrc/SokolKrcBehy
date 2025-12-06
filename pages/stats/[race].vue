@@ -58,7 +58,7 @@ type RaceStats = {
 const route = useRoute()
 const raceSeries = route.params.race
 
-const { data: stats, pending: pendingStats, error: errorStats } = await useAsyncData<RaceStats>(() => $fetch(`/api/stats/${raceSeries}`))
+const { data: stats, pending: pendingStats, error: errorStats } = useFetch<RaceStats>(`/api/stats/${raceSeries}`)
 
 const cols = [
   {

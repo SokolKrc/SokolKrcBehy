@@ -55,8 +55,8 @@ type ResultsTableData = {
 const route = useRoute()
 const raceId = route.params.id
 
-const { data: results, pending: pendingResults, error: errorResults } = await useAsyncData<RaceResult[]>(() => $fetch(`/api/results/race/${raceId}`))
-const { data: race, pending: pendingRace, error: errorRace } = await useAsyncData<Race[]>(() => $fetch(`/api/races/${raceId}`))
+const { data: results, pending: pendingResults, error: errorResults } = useFetch<RaceResult[]>(`/api/results/race/${raceId}`)
+const { data: race, pending: pendingRace, error: errorRace } = useFetch<Race[]>(`/api/races/${raceId}`)
 
 const cols = [
   {

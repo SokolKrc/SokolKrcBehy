@@ -52,7 +52,7 @@ type RaceTableData = {
   row: Row<Race>
 }
 
-const { data: races, status, error } = await useAsyncData<Race[]>(() => $fetch('/api/races/all'))
+const { data: races, status, error } = useFetch<Race[]>(`/api/races/all`)
 
 const cols = [
   {
